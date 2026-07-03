@@ -29,6 +29,14 @@
 
             <!-- Page Content -->
             <main>
+                @if(session('success'))
+                    <div class="max-w-7xl mx-auto px-4 mt-4 p-4 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
+                @endif
+                @if($errors->any())
+                    <div class="max-w-7xl mx-auto px-4 mt-4 p-4 bg-red-100 text-red-800 rounded">
+                        <ul>@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+                    </div>
+                @endif
                 {{ $slot }}
             </main>
         </div>
