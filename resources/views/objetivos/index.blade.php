@@ -3,8 +3,8 @@
 <div class="py-6 max-w-7xl mx-auto px-4">
     
     <a href="{{ route('objetivos.create') }}" class="mb-4 inline-block bg-blue-600 text-white px-4 py-2 rounded">+ Nuevo Objetivo</a>
-    <table class="w-full border text-sm">
-        <thead class="bg-gray-100"><tr><th class="p-2 border">Código</th><th class="p-2 border">Descripción</th><th class="p-2 border">Plan</th><th class="p-2 border">Acciones</th></tr></thead>
+    <div class="bg-white rounded-lg shadow overflow-hidden"><table class="w-full text-sm">
+        <thead class="bg-gray-500 text-white"><tr><th class="p-2 border">Código</th><th class="p-2 border">Descripción</th><th class="p-2 border">Plan</th><th class="p-2 border">Acciones</th></tr></thead>
         <tbody>
         @foreach($objetivos as $o)
         <tr><td class="p-2 border">{{ $o->codigo }}</td><td class="p-2 border">{{ $o->descripcion }}</td><td class="p-2 border">{{ $o->plan->nombre }}</td>
@@ -15,6 +15,6 @@
         </td></tr>
         @endforeach
         </tbody>
-    </table>
+    </table></div>
 </div>
 </x-app-layout>

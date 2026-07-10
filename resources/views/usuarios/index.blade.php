@@ -1,8 +1,8 @@
 <x-app-layout>
 <x-slot name="header"><h2 class="font-semibold text-xl">Gestión de Usuarios</h2></x-slot>
 <div class="py-6 max-w-7xl mx-auto px-4">
-    <table class="w-full border text-sm">
-        <thead class="bg-gray-100">
+    <div class="bg-white rounded-lg shadow overflow-hidden"><table class="w-full text-sm">
+        <thead class="bg-gray-500 text-white">
             <tr>
                 <th class="p-2 border">ID</th>
                 <th class="p-2 border">Nombre</th>
@@ -24,6 +24,6 @@
         </tr>
         @endforeach
         </tbody>
-    </table>
+    </table></div>
 </div>
 </x-app-layout>

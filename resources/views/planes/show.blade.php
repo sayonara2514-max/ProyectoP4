@@ -1,13 +1,57 @@
 <x-app-layout>
-<x-slot name="header"><h2 class="font-semibold text-xl">{{ $plan->nombre }}</h2></x-slot>
-<div class="py-6 max-w-xl mx-auto px-4 space-y-2">
-    <p><strong>Entidad:</strong> {{ $plan->entidad->nombre ?? 'Sin entidad' }}</p>
-    <p><strong>Período:</strong> {{ $plan->periodo_inicio }} → {{ $plan->periodo_fin }}</p>
-    <p><strong>Estado:</strong> {{ $plan->estado }}</p>
-    <h3 class="font-semibold mt-4">Programas</h3>
-    <ul class="list-disc ml-4">@foreach($plan->programas as $pg)<li>{{ $pg->nombre }}</li>@endforeach</ul>
-    <h3 class="font-semibold mt-4">Objetivos Estratégicos</h3>
-    <ul class="list-disc ml-4">@foreach($plan->objetivosEstrategicos as $o)<li>{{ $o->codigo }} – {{ $o->descripcion }}</li>@endforeach</ul>
-    <a href="{{ route('planes.index') }}" class="mt-4 inline-block text-blue-600">← Volver</a>
+<x-slot name="header"><h2 class="font-semibold text-xl">Detalle del Plan</h2></x-slot>
+<div class="py-6 max-w-3xl mx-auto px-4">
+    <div class="bg-white rounded-lg shadow p-6 space-y-4">
+        <div class="border-b pb-4">
+            <h3 class="text-2xl font-bold text-gray-800">{{ $plan->nombre }}</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-50 rounded p-4">
+                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Entidad</p>
+                <p class="text-gray-800">{{ $plan->entidad->nombre }}</p>
+            </div>
+            <div class="bg-gray-50 rounded p-4">
+                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Estado</p>
+                @if($plan->estado === 'activo')
+                    <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Activo</span>
+                @elseif($plan->estado === 'borrador')
+                    <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">Borrador</span>
+                @else
+                    <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-800">Cerrado</span>
+                @endif
+            </div>
+            <div class="bg-gray-50 rounded p-4">
+                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Período Inicio</p>
+                <p class="text-gray-800">{{ $plan->periodo_inicio }}</p>
+            </div>
+            <div class="bg-gray-50 rounded p-4">
+                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Período Fin</p>
+                <p class="text-gray-800">{{ $plan->periodo_fin }}</p>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 rounded p-4">
+            <p class="text-xs text-gray-500 uppercase font-semibold mb-2">Programas</p>
+            @forelse($plan->programas as $pg)
+                <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded mr-1 mb-1">{{ $pg->nombre }}</span>
+            @empty
+                <p class="text-gray-500 text-sm">Sin programas registrados</p>
+            @endforelse
+        </div>
+
+        <div class="bg-gray-50 rounded p-4">
+            <p class="text-xs text-gray-500 uppercase font-semibold mb-2">Objetivos Estratégicos</p>
+            @forelse($plan->objetivosEstrategicos as $o)
+                <p class="text-sm text-gray-700 mb-1">• <span class="font-semibold">{{ $o->codigo }}</span> — {{ $o->descripcion }}</p>
+            @empty
+                <p class="text-gray-500 text-sm">Sin objetivos registrados</p>
+            @endforelse
+        </div>
+
+        <div class="flex gap-2 pt-2">
+            <a href="{{ route('planes.edit', $plan->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Editar</a>
+            <a href="{{ route('planes.index') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">← Volver</a>
+        </div>
+    </div>
 </div>
 </x-app-layout>
