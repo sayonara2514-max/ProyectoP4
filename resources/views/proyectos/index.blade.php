@@ -9,7 +9,12 @@
         @foreach($proyectos as $p)
         <tr><td class="p-2 border">{{ $p->nombre }}</td><td class="p-2 border">{{ $p->programa->nombre }}</td>
         <td class="p-2 border">$ {{ number_format($p->presupuesto,2) }}</td>
-        <td class="p-2 border">{{ $p->estado }}</td>
+        <td class="p-2 border">
+            @if($p->estado === 'formulacion') Formulación
+            @elseif($p->estado === 'ejecucion') Ejecución
+            @else Cerrado
+            @endif
+        </td>
         <td class="p-2 border space-x-2">
             <a href="{{ route('proyectos.show', $p) }}" class="text-blue-600">Ver</a>
             <a href="{{ route('proyectos.edit', $p) }}" class="text-yellow-600">Editar</a>

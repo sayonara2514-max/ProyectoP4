@@ -1,7 +1,7 @@
 <x-app-layout>
 <x-slot name="header"><h2 class="font-semibold text-xl">{{ $plan->nombre }}</h2></x-slot>
 <div class="py-6 max-w-xl mx-auto px-4 space-y-2">
-    <p><strong>Entidad:</strong> {{ $plan->entidad->nombre }}</p>
+    <p><strong>Entidad:</strong> {{ $plan->entidad->nombre ?? 'Sin entidad' }}</p>
     <p><strong>Período:</strong> {{ $plan->periodo_inicio }} → {{ $plan->periodo_fin }}</p>
     <p><strong>Estado:</strong> {{ $plan->estado }}</p>
     <h3 class="font-semibold mt-4">Programas</h3>
