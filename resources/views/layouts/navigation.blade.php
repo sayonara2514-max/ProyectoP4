@@ -21,6 +21,7 @@
                     <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoría</x-nav-link>
                     @if(auth()->user()->rol?->nombre === 'Administrador')
                         <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-nav-link>
+                        <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-nav-link>
                     @endif
                 </div>
             </div>
@@ -74,6 +75,7 @@
             <x-responsive-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoría</x-responsive-nav-link>
             @if(auth()->user()->rol?->nombre === 'Administrador')
                 <x-responsive-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-responsive-nav-link>
             @endif
         </div>
 

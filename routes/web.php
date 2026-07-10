@@ -11,6 +11,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('rol:Administrador')->group(function () {
         Route::resource('roles', RolController::class);
+        Route::get('usuarios', [\App\Http\Controllers\UsuarioController::class, 'index'])->name('usuarios.index');
+        Route::get('usuarios/{usuario}/edit', [\App\Http\Controllers\UsuarioController::class, 'edit'])->name('usuarios.edit');
+        Route::put('usuarios/{usuario}', [\App\Http\Controllers\UsuarioController::class, 'update'])->name('usuarios.update');
     });
 
     Route::middleware('rol:Administrador,Técnico de Planificación')->group(function () {
@@ -26,10 +29,10 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('rol:Administrador,Auditor')->group(function () {
         Route::resource('auditorias', AuditoriaController::class)->only(['index', 'show']);
     });
-});
-Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 require __DIR__.'/auth.php';
