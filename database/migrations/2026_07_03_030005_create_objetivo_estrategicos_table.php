@@ -14,7 +14,7 @@ return new class extends Migration
         $table->id();
         $table->string('codigo', 20);
         $table->text('descripcion');
-        $table->foreignId('plan_id')->constrained('plans')->cascadeOnDelete();
+        $table->foreignId('plan_id')->constrained('planes')->cascadeOnDelete();
         $table->timestamps();
     });
 }

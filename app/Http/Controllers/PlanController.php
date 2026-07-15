@@ -23,7 +23,8 @@ class PlanController extends Controller {
         return redirect()->route('planes.index')->with('success', 'Plan creado en estado Formulado.');
     }
     public function show(Plan $plan) { 
-        return view('planes.show', ['plan' => $plan->load('entidad','programas','objetivosEstrategicos')]); 
+    $plan->load('entidad', 'programas', 'objetivosEstrategicos');
+    return view('planes.show', compact('plan')); 
     }
     public function edit(Plan $plan) { 
         if ($plan->estado === 'aprobado' && auth()->user()->rol?->nombre !== 'Autoridad Validante') {
@@ -41,26 +42,42 @@ class PlanController extends Controller {
         $plan->update($request->only('nombre','periodo_inicio','periodo_fin','entidad_id'));
         return redirect()->route('planes.index')->with('success', 'Plan actualizado.');
     }
-    public function destroy(Plan $plan) { 
-        $plan->delete(); 
-        return redirect()->route('planes.index')->with('success', 'Eliminado.'); 
-    }
     public function enviarRevision(Plan $plan) {
-        if ($plan->estado !== 'formulado') {
-            return redirect()->route('planes.index')->with('error', 'Solo planes en estado Formulado pueden enviarse a revisión.');
-        }
-        $plan->update(['estado' => 'en_revision']);
-        return redirect()->route('planes.index')->with('success', 'Plan enviado a revisión.');
+    if ($plan->estado !== 'formulado') {
+        return redirect()->route('planes.index')->with('error', 'Solo planes Formulados pueden enviarse a revision.');
     }
-    public function aprobar(Plan $plan) {
-        if ($plan->estado !== 'en_revision') {
-            return redirect()->route('planes.index')->with('error', 'Solo planes En Revisión pueden ser aprobados.');
-        }
-        $plan->update(['estado' => 'aprobado']);
-        return redirect()->route('planes.index')->with('success', 'Plan aprobado.');
+    $plan->update(['estado' => 'en_revision']);
+    return redirect()->route('planes.index')->with('success', 'Plan enviado a revision.');
+}
+public function validar(Plan $plan) {
+    if ($plan->estado !== 'en_revision') {
+        return redirect()->route('planes.index')->with('error', 'Solo planes En Revision pueden validarse.');
     }
-    public function devolver(Plan $plan) {
-        $plan->update(['estado' => 'formulado']);
-        return redirect()->route('planes.index')->with('success', 'Plan devuelto a Formulado para correcciones.');
+    $plan->update(['estado' => 'validado']);
+    return redirect()->route('planes.index')->with('success', 'Plan validado y enviado a Autoridad Validante.');
+}
+public function aprobar(Plan $plan) {
+    if ($plan->estado !== 'validado') {
+        return redirect()->route('planes.index')->with('error', 'Solo planes Validados pueden aprobarse.');
     }
+    $plan->update(['estado' => 'aprobado']);
+    return redirect()->route('planes.index')->with('success', 'Plan aprobado.');
+}
+public function devolver(Request $request, Plan $plan) {
+    if ($plan->estado === 'en_revision') {
+        $plan->update([
+            'estado' => 'formulado',
+            'observacion' => $request->observacion
+        ]);
+        return redirect()->route('planes.index')->with('success', 'Plan devuelto con observaciones.');
+    }
+    if ($plan->estado === 'validado') {
+        $plan->update([
+            'estado' => 'en_revision',
+            'observacion' => $request->observacion
+        ]);
+        return redirect()->route('planes.index')->with('success', 'Plan devuelto a En Revision.');
+    }
+    return redirect()->route('planes.index')->with('error', 'No se puede devolver este plan.');
+}
 }

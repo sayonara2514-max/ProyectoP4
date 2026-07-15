@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void {
         Route::bind('entidade', fn($value) => \App\Models\Entidad::findOrFail($value));
-        Route::bind('plane', fn($value) => \App\Models\Plan::findOrFail($value));
+        Route::bind('plan', fn($value) => \App\Models\Plan::where('id', $value)->firstOrFail());
+        Route::bind('plane', fn($value) => \App\Models\Plan::where('id', $value)->firstOrFail());
         Route::bind('indicadore', fn($value) => \App\Models\Indicador::findOrFail($value));
         Route::bind('role', fn($value) => \App\Models\Rol::findOrFail($value));
 

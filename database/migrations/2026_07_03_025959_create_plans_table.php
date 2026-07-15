@@ -6,25 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-   public function up(): void {
-    Schema::create('plans', function (Blueprint $table) {
-        $table->id();
-        $table->string('nombre');
-        $table->date('periodo_inicio');
-        $table->date('periodo_fin');
-        $table->enum('estado', ['formulado','en_revision','aprobado'])->default('formulado');
-        $table->foreignId('entidad_id')->constrained('entidads')->cascadeOnDelete();
-        $table->timestamps();
-    });
-}
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('plans');
+    public function up(): void {
+        Schema::create('planes', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->date('periodo_inicio');
+            $table->date('periodo_fin');
+            $table->enum('estado', ['formulado','en_revision','validado','aprobado'])->default('formulado');
+            $table->text('observacion')->nullable();
+            $table->foreignId('entidad_id')->constrained('entidads')->cascadeOnDelete();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void {
+        Schema::dropIfExists('planes');
     }
 };

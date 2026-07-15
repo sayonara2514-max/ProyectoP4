@@ -29,8 +29,8 @@ class ProyectoController extends Controller {
         return view('proyectos.show', compact('proyecto'));
     }
     public function edit(Proyecto $proyecto) {
-        if ($proyecto->estado === 'aprobado' && auth()->user()->rol?->nombre !== 'Autoridad Validante') {
-            return redirect()->route('proyectos.index')->with('error', 'Solo la Autoridad Validante puede editar proyectos aprobados.');
+        if ($proyecto->estado !== 'formulado' && auth()->user()->rol?->nombre !== 'Administrador') {
+            return redirect()->route('proyectos.index')->with('error', 'Solo se pueden editar proyectos en estado Formulado.');
         }
         $programas = Programa::all();
         return view('proyectos.edit', compact('proyecto', 'programas'));
@@ -52,20 +52,40 @@ class ProyectoController extends Controller {
     }
     public function enviarRevision(Proyecto $proyecto) {
         if ($proyecto->estado !== 'formulado') {
-            return redirect()->route('proyectos.index')->with('error', 'Solo proyectos en estado Formulado pueden enviarse a revision.');
+            return redirect()->route('proyectos.index')->with('error', 'Solo proyectos Formulados pueden enviarse a revision.');
         }
         $proyecto->update(['estado' => 'en_revision']);
         return redirect()->route('proyectos.index')->with('success', 'Proyecto enviado a revision.');
     }
-    public function aprobar(Proyecto $proyecto) {
+    public function validar(Proyecto $proyecto) {
         if ($proyecto->estado !== 'en_revision') {
-            return redirect()->route('proyectos.index')->with('error', 'Solo proyectos En Revision pueden ser aprobados.');
+            return redirect()->route('proyectos.index')->with('error', 'Solo proyectos En Revision pueden validarse.');
+        }
+        $proyecto->update(['estado' => 'validado']);
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto validado y enviado a Autoridad Validante.');
+    }
+    public function aprobar(Proyecto $proyecto) {
+        if ($proyecto->estado !== 'validado') {
+            return redirect()->route('proyectos.index')->with('error', 'Solo proyectos Validados pueden aprobarse.');
         }
         $proyecto->update(['estado' => 'aprobado']);
         return redirect()->route('proyectos.index')->with('success', 'Proyecto aprobado.');
     }
-    public function devolver(Proyecto $proyecto) {
-        $proyecto->update(['estado' => 'formulado']);
-        return redirect()->route('proyectos.index')->with('success', 'Proyecto devuelto a Formulado para correcciones.');
+public function devolver(Request $request, Proyecto $proyecto) {
+    if ($proyecto->estado === 'en_revision') {
+        $proyecto->update([
+            'estado' => 'formulado',
+            'observacion' => $request->observacion
+        ]);
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto devuelto con observaciones.');
     }
+    if ($proyecto->estado === 'validado') {
+        $proyecto->update([
+            'estado' => 'en_revision',
+            'observacion' => $request->observacion
+        ]);
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto devuelto a En Revision.');
+    }
+    return redirect()->route('proyectos.index')->with('error', 'No se puede devolver este proyecto.');
+}
 }

@@ -13,7 +13,7 @@ public function up(): void {
     Schema::create('programas', function (Blueprint $table) {
         $table->id();
         $table->string('nombre');
-        $table->foreignId('plan_id')->constrained('plans')->cascadeOnDelete();
+        $table->foreignId('plan_id')->constrained('planes')->cascadeOnDelete();
         $table->timestamps();
     });
 }
