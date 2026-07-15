@@ -15,13 +15,6 @@
             <div><label class="block text-sm font-medium">Fecha Inicio</label><input type="date" name="fecha_inicio" value="{{ old('fecha_inicio') }}" class="w-full border rounded p-2" required></div>
             <div><label class="block text-sm font-medium">Fecha Fin</label><input type="date" name="fecha_fin" value="{{ old('fecha_fin') }}" class="w-full border rounded p-2" required></div>
         </div>
-        <div><label class="block text-sm font-medium">Estado</label>
-            <select name="estado" class="w-full border rounded p-2">
-                <option value="formulacion">Formulación</option>
-                <option value="ejecucion">Ejecución</option>
-                <option value="cerrado">Cerrado</option>
-            </select>
-        </div>
         <button class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
         <a href="{{ route('proyectos.index') }}" class="ml-2 text-gray-600">Cancelar</a>
     </form>

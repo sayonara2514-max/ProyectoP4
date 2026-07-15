@@ -11,8 +11,18 @@
                 <p class="text-gray-800">{{ $proyecto->programa->nombre }}</p>
             </div>
             <div class="bg-gray-50 rounded p-4">
+                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Estado</p>
+                @if($proyecto->estado === 'formulado')
+                    <span class="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">Formulado</span>
+                @elseif($proyecto->estado === 'en_revision')
+                    <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">En Revision</span>
+                @else
+                    <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Aprobado</span>
+                @endif
+            </div>
+            <div class="bg-gray-50 rounded p-4">
                 <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Presupuesto</p>
-                <p class="text-gray-800 font-bold">$ {{ number_format($proyecto->presupuesto, 2) }}</p>
+                <p class="text-gray-800 font-bold">$ {{ number_format($proyecto->presupuesto,2) }}</p>
             </div>
             <div class="bg-gray-50 rounded p-4">
                 <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Fecha Inicio</p>
@@ -21,16 +31,6 @@
             <div class="bg-gray-50 rounded p-4">
                 <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Fecha Fin</p>
                 <p class="text-gray-800">{{ $proyecto->fecha_fin }}</p>
-            </div>
-            <div class="bg-gray-50 rounded p-4 col-span-2">
-                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Estado</p>
-                @if($proyecto->estado === 'formulacion')
-                    <span class="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">Formulación</span>
-                @elseif($proyecto->estado === 'ejecucion')
-                    <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Ejecución</span>
-                @else
-                    <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-800">Cerrado</span>
-                @endif
             </div>
         </div>
 
@@ -44,7 +44,9 @@
         </div>
 
         <div class="flex gap-2 pt-2">
-            <a href="{{ route('proyectos.edit', $proyecto->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Editar</a>
+            @if($proyecto->estado === 'formulado' && in_array(auth()->user()->rol?->nombre, ['Administrador','Técnico de Planificación']))
+                <a href="{{ route('proyectos.edit', $proyecto->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Editar</a>
+            @endif
             <a href="{{ route('proyectos.index') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">← Volver</a>
         </div>
     </div>
