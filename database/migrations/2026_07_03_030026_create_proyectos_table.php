@@ -17,7 +17,7 @@ return new class extends Migration
         $table->decimal('presupuesto', 14, 2)->default(0);
         $table->date('fecha_inicio');
         $table->date('fecha_fin');
-        $table->enum('estado', ['formulacion','ejecucion','cerrado'])->default('formulacion');
+        $table->enum('estado', ['formulado','en_revision','aprobado'])->default('formulado');
         $table->foreignId('programa_id')->constrained('programas')->cascadeOnDelete();
         $table->timestamps();
     });

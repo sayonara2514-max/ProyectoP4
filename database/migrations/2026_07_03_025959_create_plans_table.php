@@ -15,7 +15,7 @@ return new class extends Migration
         $table->string('nombre');
         $table->date('periodo_inicio');
         $table->date('periodo_fin');
-        $table->enum('estado', ['borrador','activo','cerrado'])->default('borrador');
+        $table->enum('estado', ['formulado','en_revision','aprobado'])->default('formulado');
         $table->foreignId('entidad_id')->constrained('entidads')->cascadeOnDelete();
         $table->timestamps();
     });

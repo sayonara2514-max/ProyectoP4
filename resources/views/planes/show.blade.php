@@ -12,20 +12,20 @@
             </div>
             <div class="bg-gray-50 rounded p-4">
                 <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Estado</p>
-                @if($plan->estado === 'activo')
-                    <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Activo</span>
-                @elseif($plan->estado === 'borrador')
-                    <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">Borrador</span>
+                @if($plan->estado === 'formulado')
+                    <span class="px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">Formulado</span>
+                @elseif($plan->estado === 'en_revision')
+                    <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">En Revision</span>
                 @else
-                    <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-800">Cerrado</span>
+                    <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Aprobado</span>
                 @endif
             </div>
             <div class="bg-gray-50 rounded p-4">
-                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Período Inicio</p>
+                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Periodo Inicio</p>
                 <p class="text-gray-800">{{ $plan->periodo_inicio }}</p>
             </div>
             <div class="bg-gray-50 rounded p-4">
-                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Período Fin</p>
+                <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Periodo Fin</p>
                 <p class="text-gray-800">{{ $plan->periodo_fin }}</p>
             </div>
         </div>
@@ -39,17 +39,10 @@
             @endforelse
         </div>
 
-        <div class="bg-gray-50 rounded p-4">
-            <p class="text-xs text-gray-500 uppercase font-semibold mb-2">Objetivos Estratégicos</p>
-            @forelse($plan->objetivosEstrategicos as $o)
-                <p class="text-sm text-gray-700 mb-1">• <span class="font-semibold">{{ $o->codigo }}</span> — {{ $o->descripcion }}</p>
-            @empty
-                <p class="text-gray-500 text-sm">Sin objetivos registrados</p>
-            @endforelse
-        </div>
-
         <div class="flex gap-2 pt-2">
-            <a href="{{ route('planes.edit', $plan->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Editar</a>
+            @if($plan->estado === 'formulado' && in_array(auth()->user()->rol?->nombre, ['Administrador','Técnico de Planificación']))
+                <a href="{{ route('planes.edit', $plan->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Editar</a>
+            @endif
             <a href="{{ route('planes.index') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">← Volver</a>
         </div>
     </div>
