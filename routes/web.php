@@ -8,7 +8,9 @@ Route::get('/', fn() => redirect('/dashboard'));
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
-
+    
+    Route::get('ods', [\App\Http\Controllers\OdsController::class, 'index'])->name('ods.index');
+    Route::get('ods/{ods}', [\App\Http\Controllers\OdsController::class, 'show'])->name('ods.show');
     // Solo Administrador
     Route::middleware('rol:Administrador')->group(function () {
         Route::resource('roles', RolController::class);

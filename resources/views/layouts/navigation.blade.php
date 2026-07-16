@@ -10,14 +10,15 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">Inicio</x-nav-link>
                     @if(auth()->user()->rol?->nombre === 'Administrador')
-                        <x-nav-link :href="route('entidades.index')" :active="request()->routeIs('entidades.*')">Entidades</x-nav-link>
-                        <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
-                        <x-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-nav-link>
-                        <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
-                        <x-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-nav-link>
-                        <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
-                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-nav-link>
-                        <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-nav-link>
+                    <x-nav-link :href="route('entidades.index')" :active="request()->routeIs('entidades.*')">Entidades</x-nav-link>
+                    <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
+                    <x-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-nav-link>
+                    <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
+                    <x-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-nav-link>
+                    <x-nav-link :href="route('ods.index')" :active="request()->routeIs('ods.*')">ODS</x-nav-link>
+                    <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
+                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-nav-link>
+                    <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-nav-link>
                     @endif
                     @if(auth()->user()->rol?->nombre === 'Técnico de Planificación')
                         <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
