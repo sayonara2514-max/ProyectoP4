@@ -98,13 +98,18 @@
         </a>
     @endif
 
-    @if(auth()->user()->rol?->nombre === 'Auditor')
-        <a href="{{ route('auditorias.index') }}" class="bg-red-700 text-white rounded-lg p-4 shadow hover:bg-red-800">
-            <p class="text-3xl">🔍</p>
-            <p class="text-lg font-semibold mt-2">Auditoria</p>
-            <p class="text-xs opacity-80">Registro de actividades</p>
-        </a>
-    @endif
+@if(auth()->user()->rol?->nombre === 'Auditor')
+    <a href="{{ route('auditorias.index') }}" class="bg-red-700 text-white rounded-lg p-4 shadow hover:bg-red-800">
+        <p class="text-3xl">🔍</p>
+        <p class="text-lg font-semibold mt-2">Auditoria</p>
+        <p class="text-xs opacity-80">Registro de actividades</p>
+    </a>
+    <a href="{{ route('reportes.index') }}" class="bg-blue-700 text-white rounded-lg p-4 shadow hover:bg-blue-800">
+        <p class="text-3xl">📊</p>
+        <p class="text-lg font-semibold mt-2">Reportes</p>
+        <p class="text-xs opacity-80">Generacion de reportes</p>
+    </a>
+@endif
 
 </div>
         </div>

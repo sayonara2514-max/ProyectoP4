@@ -38,6 +38,7 @@
                     @endif
                     @if(auth()->user()->rol?->nombre === 'Auditor')
                         <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
+                        <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-nav-link>
                     @endif
                 </div>
             </div>
