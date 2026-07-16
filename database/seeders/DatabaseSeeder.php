@@ -10,6 +10,8 @@ class DatabaseSeeder extends Seeder {
             RolSeeder::class,
             OdsSeeder::class,
             PdnSeeder::class,
+            OdsMetaSeeder::class,
+            OdsIndicadorSeeder::class,
         ]);
 
         $roles = Rol::all()->keyBy('nombre');
