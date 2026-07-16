@@ -19,6 +19,7 @@
                     <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
                     <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-nav-link>
                     <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-nav-link>
+                    <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-nav-link>
                     @endif
                     @if(auth()->user()->rol?->nombre === 'Técnico de Planificación')
                         <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
@@ -32,6 +33,8 @@
                     @if(auth()->user()->rol?->nombre === 'Autoridad Validante')
                         <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
                         <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
+                        <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
+                        <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-nav-link>
                     @endif
                     @if(auth()->user()->rol?->nombre === 'Auditor')
                         <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>

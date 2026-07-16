@@ -64,8 +64,17 @@ Route::middleware(['auth'])->group(function () {
 
     // Auditoria
     Route::middleware('rol:Administrador,Auditor')->group(function () {
-        Route::resource('auditorias', AuditoriaController::class)->only(['index', 'show']);
-    });
+    Route::resource('auditorias', AuditoriaController::class)->only(['index', 'show']);
+    Route::get('reportes', [\App\Http\Controllers\ReporteController::class, 'index'])->name('reportes.index');
+    Route::get('reportes/planes/pdf', [\App\Http\Controllers\ReporteController::class, 'planespdf'])->name('reportes.planes.pdf');
+    Route::get('reportes/planes/csv', [\App\Http\Controllers\ReporteController::class, 'planescsv'])->name('reportes.planes.csv');
+    Route::get('reportes/proyectos/pdf', [\App\Http\Controllers\ReporteController::class, 'proyectospdf'])->name('reportes.proyectos.pdf');
+    Route::get('reportes/proyectos/csv', [\App\Http\Controllers\ReporteController::class, 'proyectoscsv'])->name('reportes.proyectos.csv');
+    Route::get('reportes/objetivos/pdf', [\App\Http\Controllers\ReporteController::class, 'objetivospdf'])->name('reportes.objetivos.pdf');
+    Route::get('reportes/objetivos/csv', [\App\Http\Controllers\ReporteController::class, 'objetivoscsv'])->name('reportes.objetivos.csv');
+    Route::get('reportes/ods/pdf', [\App\Http\Controllers\ReporteController::class, 'odspdf'])->name('reportes.ods.pdf');
+    Route::get('reportes/ods/csv', [\App\Http\Controllers\ReporteController::class, 'odscsv'])->name('reportes.ods.csv');
+   });
 
     // Perfil
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
