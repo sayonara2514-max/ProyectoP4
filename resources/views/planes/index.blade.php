@@ -85,7 +85,7 @@
                         <button onclick="document.getElementById('modal-plan-{{ $p->id }}').classList.remove('hidden')" class="text-orange-600 text-xs hover:underline">Devolver</button>
                     @endif
 
-                    @if(auth()->user()->rol?->nombre === 'Administrador' && $p->estado === 'formulado')
+                    @if(in_array(auth()->user()->rol?->nombre, ['Administrador','Técnico de Planificación']) && $p->estado === 'formulado')
                         <form action="{{ route('planes.destroy', $p) }}" method="POST" class="inline" onsubmit="return confirm('Eliminar?')">@csrf @method('DELETE')<button class="text-red-600 text-xs hover:underline">Eliminar</button></form>
                     @endif
                 </td>
