@@ -26,8 +26,11 @@ class ProgramaController extends Controller {
         $programa->update($request->only('codigo','nombre','descripcion','responsable','observaciones','plan_id'));
         return redirect()->route('programas.index')->with('success', 'Programa actualizado.');
     }
-    public function destroy(Programa $programa) { 
-        $programa->delete(); 
-        return redirect()->route('programas.index')->with('success', 'Eliminado.'); 
+  public function destroy(Programa $programa) { 
+    if ($programa->proyectos()->count() > 0) {
+        return redirect()->route('programas.index')->with('error', 'No se puede eliminar un programa que tiene proyectos asociados.');
     }
+    $programa->delete(); 
+    return redirect()->route('programas.index')->with('success', 'Eliminado.'); 
+}
 }

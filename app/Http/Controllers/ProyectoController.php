@@ -49,9 +49,12 @@ public function update(Request $request, Proyecto $proyecto) {
     return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado.');
 }
     public function destroy(Proyecto $proyecto) {
-        $proyecto->delete();
-        return redirect()->route('proyectos.index')->with('success', 'Proyecto eliminado.');
+    if ($proyecto->estado !== 'formulado') {
+        return redirect()->route('proyectos.index')->with('error', 'Solo se pueden eliminar proyectos en estado Formulado.');
     }
+    $proyecto->delete();
+    return redirect()->route('proyectos.index')->with('success', 'Proyecto eliminado.');
+}
     public function enviarRevision(Proyecto $proyecto) {
         if ($proyecto->estado !== 'formulado') {
             return redirect()->route('proyectos.index')->with('error', 'Solo proyectos Formulados pueden enviarse a revision.');

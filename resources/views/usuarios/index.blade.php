@@ -3,7 +3,7 @@
 <div class="py-6">
     <div class="flex justify-between items-center mb-4">
         <p class="text-sm text-gray-500">Administracion de usuarios y asignacion de roles de acceso</p>
-        <a href="{{ url('/register') }}" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 text-sm font-medium">+ Nuevo Usuario</a>
+        <a href="{{ route('usuarios.create') }}" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 text-sm font-medium">+ Nuevo Usuario</a>
     </div>
 
     <div class="grid grid-cols-3 gap-4 mb-4">
@@ -47,7 +47,7 @@
                     @endif
                 </td>
                 <td class="p-3 text-xs text-gray-400">{{ $u->created_at->format('d/m/Y') }}</td>
-                <td class="p-3">
+                <td class="p-3 space-x-2">
                     <a href="{{ route('usuarios.edit', $u->id) }}" class="text-yellow-600 text-xs hover:underline">Asignar Rol</a>
                 </td>
             </tr>

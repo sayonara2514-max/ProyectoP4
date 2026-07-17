@@ -8,7 +8,6 @@
         @endif
     </div>
 
-    <!-- Estadisticas -->
     <div class="grid grid-cols-3 gap-4 mb-4">
         <div class="bg-white rounded-lg shadow p-4 text-center border-l-4 border-blue-600">
             <p class="text-2xl font-bold text-blue-700">{{ count($programas) }}</p>
@@ -32,6 +31,7 @@
                     <th class="p-3 text-left">Nombre del Programa</th>
                     <th class="p-3 text-left">Plan Vinculado</th>
                     <th class="p-3 text-left">Responsable</th>
+                    <th class="p-3 text-center">Proyectos</th>
                     <th class="p-3 text-left">Acciones</th>
                 </tr>
             </thead>
@@ -47,11 +47,18 @@
                     <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">{{ $p->plan->nombre }}</span>
                 </td>
                 <td class="p-3 text-gray-600 text-xs">{{ $p->responsable ?? '-' }}</td>
+                <td class="p-3 text-center">
+                    <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded font-semibold">{{ $p->proyectos->count() }}</span>
+                </td>
                 <td class="p-3 space-x-2">
                     <a href="{{ route('programas.show', $p) }}" class="text-blue-600 text-xs hover:underline">Ver</a>
                     @if(in_array(auth()->user()->rol?->nombre, ['Administrador','Técnico de Planificación']))
-                    <a href="{{ route('programas.edit', $p) }}" class="text-yellow-600 text-xs hover:underline">Editar</a>
-                    <form action="{{ route('programas.destroy', $p) }}" method="POST" class="inline" onsubmit="return confirm('Eliminar?')">@csrf @method('DELETE')<button class="text-red-600 text-xs hover:underline">Eliminar</button></form>
+                        <a href="{{ route('programas.edit', $p) }}" class="text-yellow-600 text-xs hover:underline">Editar</a>
+                        @if($p->proyectos->count() === 0)
+                            <form action="{{ route('programas.destroy', $p) }}" method="POST" class="inline" onsubmit="return confirm('Eliminar?')">@csrf @method('DELETE')<button class="text-red-600 text-xs hover:underline">Eliminar</button></form>
+                        @else
+                            <span class="text-gray-400 text-xs" title="No se puede eliminar: tiene proyectos asociados">Con proyectos</span>
+                        @endif
                     @endif
                 </td>
             </tr>

@@ -29,6 +29,7 @@
                         <x-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-nav-link>
                         <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
                         <x-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-nav-link>
+                        <x-nav-link :href="route('ods.index')" :active="request()->routeIs('ods.*')">ODS-PDN</x-nav-link>
                     @endif
 
                     @if(auth()->user()->rol?->nombre === 'Revisor Institucional')
@@ -104,6 +105,7 @@
                 <x-responsive-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('ods.index')" :active="request()->routeIs('ods.*')">ODS-PDN</x-responsive-nav-link>
             @endif
             @if(auth()->user()->rol?->nombre === 'Revisor Institucional')
                 <x-responsive-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-responsive-nav-link>

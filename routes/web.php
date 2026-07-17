@@ -16,6 +16,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('usuarios', [\App\Http\Controllers\UsuarioController::class, 'index'])->name('usuarios.index');
         Route::get('usuarios/{usuario}/edit', [\App\Http\Controllers\UsuarioController::class, 'edit'])->name('usuarios.edit');
         Route::put('usuarios/{usuario}', [\App\Http\Controllers\UsuarioController::class, 'update'])->name('usuarios.update');
+        Route::get('usuarios/create', [\App\Http\Controllers\UsuarioController::class, 'create'])->name('usuarios.create');
+        Route::post('usuarios', [\App\Http\Controllers\UsuarioController::class, 'store'])->name('usuarios.store');
     });
 
     // Administrador y Tecnico
