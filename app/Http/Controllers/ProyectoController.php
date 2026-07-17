@@ -13,16 +13,17 @@ class ProyectoController extends Controller {
         return view('proyectos.create', compact('programas'));
     }
     public function store(Request $request) {
-        $data = $request->validate([
-            'nombre'       => 'required|string|max:255',
-            'presupuesto'  => 'required|numeric|min:0',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin'    => 'required|date|after:fecha_inicio',
-            'programa_id'  => 'required|exists:programas,id',
-        ]);
-        $data['estado'] = 'formulado';
-        Proyecto::create($data);
-        return redirect()->route('proyectos.index')->with('success', 'Proyecto creado en estado Formulado.');
+    $data = $request->validate([
+        'nombre'       => 'required|string|max:255',
+        'presupuesto'  => 'required|numeric|min:0',
+        'fecha_inicio' => 'required|date',
+        'fecha_fin'    => 'required|date|after:fecha_inicio',
+        'programa_id'  => 'required|exists:programas,id',
+    ]);
+    $data['estado'] = 'formulado';
+    $extra = $request->only('codigo','descripcion','tipo','sector_intervencion','fuente_financiamiento','presupuesto_ejecutado','ubicacion_geografica');
+    Proyecto::create(array_merge($data, $extra));
+    return redirect()->route('proyectos.index')->with('success', 'Proyecto creado en estado Formulado.');
     }
     public function show(Proyecto $proyecto) {
         $proyecto->load('programa', 'metas.indicadores');
@@ -35,17 +36,18 @@ class ProyectoController extends Controller {
         $programas = Programa::all();
         return view('proyectos.edit', compact('proyecto', 'programas'));
     }
-    public function update(Request $request, Proyecto $proyecto) {
-        $data = $request->validate([
-            'nombre'       => 'required|string|max:255',
-            'presupuesto'  => 'required|numeric|min:0',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin'    => 'required|date|after:fecha_inicio',
-            'programa_id'  => 'required|exists:programas,id',
-        ]);
-        $proyecto->update($data);
-        return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado.');
-    }
+public function update(Request $request, Proyecto $proyecto) {
+    $data = $request->validate([
+        'nombre'       => 'required|string|max:255',
+        'presupuesto'  => 'required|numeric|min:0',
+        'fecha_inicio' => 'required|date',
+        'fecha_fin'    => 'required|date|after:fecha_inicio',
+        'programa_id'  => 'required|exists:programas,id',
+    ]);
+    $extra = $request->only('codigo','descripcion','tipo','sector_intervencion','fuente_financiamiento','presupuesto_ejecutado','ubicacion_geografica');
+    $proyecto->update(array_merge($data, $extra));
+    return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado.');
+}
     public function destroy(Proyecto $proyecto) {
         $proyecto->delete();
         return redirect()->route('proyectos.index')->with('success', 'Proyecto eliminado.');

@@ -8,12 +8,11 @@ Route::get('/', fn() => redirect('/dashboard'));
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
-    
-    Route::get('ods', [\App\Http\Controllers\OdsController::class, 'index'])->name('ods.index');
-    Route::get('ods/{ods}', [\App\Http\Controllers\OdsController::class, 'show'])->name('ods.show');
+
     // Solo Administrador
     Route::middleware('rol:Administrador')->group(function () {
         Route::resource('roles', RolController::class);
+        Route::resource('entidades', EntidadController::class);
         Route::get('usuarios', [\App\Http\Controllers\UsuarioController::class, 'index'])->name('usuarios.index');
         Route::get('usuarios/{usuario}/edit', [\App\Http\Controllers\UsuarioController::class, 'edit'])->name('usuarios.edit');
         Route::put('usuarios/{usuario}', [\App\Http\Controllers\UsuarioController::class, 'update'])->name('usuarios.update');
@@ -21,17 +20,19 @@ Route::middleware(['auth'])->group(function () {
 
     // Administrador y Tecnico
     Route::middleware('rol:Administrador,Técnico de Planificación')->group(function () {
-        Route::resource('entidades', EntidadController::class);
         Route::resource('metas', MetaController::class);
         Route::resource('indicadores', IndicadorController::class);
         Route::resource('objetivos', ObjetivoEstrategicoController::class);
+        Route::resource('programas', ProgramaController::class);
+        Route::get('planes/{id}/actividades', [\App\Http\Controllers\PlanActividadController::class, 'index'])->name('planes.actividades.index');
+        Route::post('planes/{id}/actividades', [\App\Http\Controllers\PlanActividadController::class, 'store'])->name('planes.actividades.store');
+        Route::delete('actividades/{actividad}', [\App\Http\Controllers\PlanActividadController::class, 'destroy'])->name('actividades.destroy');
     });
 
-    // Planes, Programas, Proyectos - acceso para todos los roles relevantes
+    // Planes y Proyectos
     Route::middleware('rol:Administrador,Técnico de Planificación,Revisor Institucional,Autoridad Validante')->group(function () {
         Route::resource('planes', PlanController::class);
         Route::resource('proyectos', ProyectoController::class);
-        Route::resource('programas', ProgramaController::class);
     });
 
     // Flujo de aprobacion de planes
@@ -62,19 +63,23 @@ Route::middleware(['auth'])->group(function () {
         ->name('proyectos.devolver')
         ->middleware('rol:Administrador,Revisor Institucional,Autoridad Validante');
 
-    // Auditoria
+    // ODS
+    Route::get('ods', [\App\Http\Controllers\OdsController::class, 'index'])->name('ods.index');
+    Route::get('ods/{ods}', [\App\Http\Controllers\OdsController::class, 'show'])->name('ods.show');
+
+    // Auditoria y Reportes
     Route::middleware('rol:Administrador,Auditor')->group(function () {
-    Route::resource('auditorias', AuditoriaController::class)->only(['index', 'show']);
-    Route::get('reportes', [\App\Http\Controllers\ReporteController::class, 'index'])->name('reportes.index');
-    Route::get('reportes/planes/pdf', [\App\Http\Controllers\ReporteController::class, 'planespdf'])->name('reportes.planes.pdf');
-    Route::get('reportes/planes/csv', [\App\Http\Controllers\ReporteController::class, 'planescsv'])->name('reportes.planes.csv');
-    Route::get('reportes/proyectos/pdf', [\App\Http\Controllers\ReporteController::class, 'proyectospdf'])->name('reportes.proyectos.pdf');
-    Route::get('reportes/proyectos/csv', [\App\Http\Controllers\ReporteController::class, 'proyectoscsv'])->name('reportes.proyectos.csv');
-    Route::get('reportes/objetivos/pdf', [\App\Http\Controllers\ReporteController::class, 'objetivospdf'])->name('reportes.objetivos.pdf');
-    Route::get('reportes/objetivos/csv', [\App\Http\Controllers\ReporteController::class, 'objetivoscsv'])->name('reportes.objetivos.csv');
-    Route::get('reportes/ods/pdf', [\App\Http\Controllers\ReporteController::class, 'odspdf'])->name('reportes.ods.pdf');
-    Route::get('reportes/ods/csv', [\App\Http\Controllers\ReporteController::class, 'odscsv'])->name('reportes.ods.csv');
-   });
+        Route::resource('auditorias', AuditoriaController::class)->only(['index', 'show']);
+        Route::get('reportes', [\App\Http\Controllers\ReporteController::class, 'index'])->name('reportes.index');
+        Route::get('reportes/planes/pdf', [\App\Http\Controllers\ReporteController::class, 'planespdf'])->name('reportes.planes.pdf');
+        Route::get('reportes/planes/csv', [\App\Http\Controllers\ReporteController::class, 'planescsv'])->name('reportes.planes.csv');
+        Route::get('reportes/proyectos/pdf', [\App\Http\Controllers\ReporteController::class, 'proyectospdf'])->name('reportes.proyectos.pdf');
+        Route::get('reportes/proyectos/csv', [\App\Http\Controllers\ReporteController::class, 'proyectoscsv'])->name('reportes.proyectos.csv');
+        Route::get('reportes/objetivos/pdf', [\App\Http\Controllers\ReporteController::class, 'objetivospdf'])->name('reportes.objetivos.pdf');
+        Route::get('reportes/objetivos/csv', [\App\Http\Controllers\ReporteController::class, 'objetivoscsv'])->name('reportes.objetivos.csv');
+        Route::get('reportes/ods/pdf', [\App\Http\Controllers\ReporteController::class, 'odspdf'])->name('reportes.ods.pdf');
+        Route::get('reportes/ods/csv', [\App\Http\Controllers\ReporteController::class, 'odscsv'])->name('reportes.ods.csv');
+    });
 
     // Perfil
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');

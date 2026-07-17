@@ -4,7 +4,9 @@ use App\Models\Rol;
 use Illuminate\Http\Request;
 
 class RolController extends Controller {
-    public function index() { return view('roles.index', ['roles' => Rol::all()]); }
+    public function index() { 
+    return view('roles.index', ['roles' => Rol::with('usuarios')->get()]); 
+    }
     public function create() { return view('roles.create'); }
     public function store(Request $request) {
         $request->validate(['nombre' => 'required|unique:rols', 'descripcion' => 'nullable']);

@@ -1,48 +1,57 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <div class="bg-blue-700 text-white px-2 py-1 rounded text-xs font-bold">SNP</div>
+                        <span class="text-sm font-semibold text-gray-700 hidden md:block">SIPeIP</span>
                     </a>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-4 sm:-my-px sm:ms-6 sm:flex items-center">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">Inicio</x-nav-link>
+
                     @if(auth()->user()->rol?->nombre === 'Administrador')
-                    <x-nav-link :href="route('entidades.index')" :active="request()->routeIs('entidades.*')">Entidades</x-nav-link>
-                    <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
-                    <x-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-nav-link>
-                    <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
-                    <x-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-nav-link>
-                    <x-nav-link :href="route('ods.index')" :active="request()->routeIs('ods.*')">ODS</x-nav-link>
-                    <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
-                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-nav-link>
-                    <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-nav-link>
-                    <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-nav-link>
+                        <x-nav-link :href="route('entidades.index')" :active="request()->routeIs('entidades.*')">Entidades</x-nav-link>
+                        <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
+                        <x-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-nav-link>
+                        <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
+                        <x-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-nav-link>
+                        <x-nav-link :href="route('ods.index')" :active="request()->routeIs('ods.*') || request()->routeIs('pdn.*')">ODS-PDN</x-nav-link>
+                        <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
+                        <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-nav-link>
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-nav-link>
+                        <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-nav-link>
                     @endif
+
                     @if(auth()->user()->rol?->nombre === 'Técnico de Planificación')
                         <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
                         <x-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-nav-link>
                         <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
+                        <x-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-nav-link>
                     @endif
+
                     @if(auth()->user()->rol?->nombre === 'Revisor Institucional')
                         <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
                         <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
                     @endif
+
                     @if(auth()->user()->rol?->nombre === 'Autoridad Validante')
                         <x-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-nav-link>
                         <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-nav-link>
-                        <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
-                        <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-nav-link>
                     @endif
+
                     @if(auth()->user()->rol?->nombre === 'Auditor')
                         <x-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-nav-link>
                         <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-nav-link>
                     @endif
                 </div>
             </div>
+
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <div class="text-xs text-gray-500 mr-4 hidden lg:block">
+                    {{ auth()->user()->rol?->nombre ?? 'Sin rol' }}
+                </div>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -63,8 +72,9 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -73,6 +83,7 @@
             </div>
         </div>
     </div>
+
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">Inicio</x-responsive-nav-link>
@@ -82,14 +93,17 @@
                 <x-responsive-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('ods.index')" :active="request()->routeIs('ods.*')">ODS</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.*')">Roles</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">Usuarios</x-responsive-nav-link>
             @endif
-            @if(auth()->user()->rol?->nombre === 'Tecnico de Planificacion')
+            @if(auth()->user()->rol?->nombre === 'Técnico de Planificación')
                 <x-responsive-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('programas.index')" :active="request()->routeIs('programas.*')">Programas</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">Proyectos</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('objetivos.index')" :active="request()->routeIs('objetivos.*')">Objetivos</x-responsive-nav-link>
             @endif
             @if(auth()->user()->rol?->nombre === 'Revisor Institucional')
                 <x-responsive-nav-link :href="route('planes.index')" :active="request()->routeIs('planes.*')">Planes</x-responsive-nav-link>
@@ -101,12 +115,14 @@
             @endif
             @if(auth()->user()->rol?->nombre === 'Auditor')
                 <x-responsive-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">Auditoria</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">Reportes</x-responsive-nav-link>
             @endif
         </div>
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-xs text-blue-600">{{ auth()->user()->rol?->nombre }}</div>
             </div>
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">{{ __('Profile') }}</x-responsive-nav-link>
