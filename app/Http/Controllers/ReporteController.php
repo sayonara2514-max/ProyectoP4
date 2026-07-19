@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 class ReporteController extends Controller {
 
     public function index() {
-        $entidades = Entidad::all();
-        return view('reportes.index', compact('entidades'));
-    }
+    $entidades = Entidad::all();
+    $usuarios = \App\Models\User::with('rol')->get();
+    return view('reportes.index', compact('entidades', 'usuarios'));
+  }
 
     // PLANES
     public function planespdf(Request $request) {
@@ -161,5 +162,30 @@ class ReporteController extends Controller {
             fclose($file);
         };
         return response()->stream($callback, 200, $headers);
+    }
+    public function actividadusuariopdf(Request $request) {
+    $query = Auditoria::with('usuario');
+    if ($request->user_id) $query->where('user_id', $request->user_id);
+    if ($request->modulo) $query->where('modulo', $request->modulo);
+    $auditorias = $query->latest('fecha_hora')->get();
+    $usuarios = \App\Models\User::all();
+    $pdf = Pdf::loadView('reportes.actividad_usuario_pdf', compact('auditorias', 'usuarios', 'request'));
+    return $pdf->download('reporte_actividad_usuario.pdf');
+    }
+    public function actividadusuariocsv(Request $request) {
+    $query = Auditoria::with('usuario');
+    if ($request->user_id) $query->where('user_id', $request->user_id);
+    if ($request->modulo) $query->where('modulo', $request->modulo);
+    $auditorias = $query->latest('fecha_hora')->get();
+    $headers = ['Content-Type' => 'text/csv', 'Content-Disposition' => 'attachment; filename=reporte_actividad_usuario.csv'];
+    $callback = function() use ($auditorias) {
+        $file = fopen('php://output', 'w');
+        fputcsv($file, ['Fecha/Hora','Usuario','Rol','Modulo','Accion']);
+        foreach ($auditorias as $a) {
+            fputcsv($file, [$a->fecha_hora, $a->usuario->name ?? 'N/A', $a->usuario->rol?->nombre ?? 'N/A', $a->modulo, $a->accion]);
+        }
+        fclose($file);
+    };
+    return response()->stream($callback, 200, $headers);
     }
 }

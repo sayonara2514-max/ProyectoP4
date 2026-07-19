@@ -85,6 +85,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('reportes/auditoria/csv', [\App\Http\Controllers\ReporteController::class, 'auditoriacsv'])->name('reportes.auditoria.csv');
         Route::get('reportes/entidades/pdf', [\App\Http\Controllers\ReporteController::class, 'entidadespdf'])->name('reportes.entidades.pdf');
         Route::get('reportes/entidades/csv', [\App\Http\Controllers\ReporteController::class, 'entidadescsv'])->name('reportes.entidades.csv');
+        Route::get('reportes/actividad-usuario/pdf', [\App\Http\Controllers\ReporteController::class, 'actividadusuariopdf'])->name('reportes.actividad.pdf');
+        Route::get('reportes/actividad-usuario/csv', [\App\Http\Controllers\ReporteController::class, 'actividadusuariocsv'])->name('reportes.actividad.csv');
     });
 
     // Perfil

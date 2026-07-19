@@ -195,13 +195,14 @@
                 <div>
                     <label class="block text-xs text-gray-600 mb-1">Modulo</label>
                     <select name="modulo" class="border rounded p-1.5 text-sm">
-                        <option value="">Todos</option>
-                        <option value="Proyecto">Proyecto</option>
-                        <option value="Plan">Plan</option>
-                        <option value="Programa">Programa</option>
-                        <option value="Meta">Meta</option>
-                        <option value="Indicador">Indicador</option>
-                        <option value="ObjetivoEstrategico">Objetivo</option>
+                      <option value="">Todos</option>
+                      <option value="Plan">Plan</option>
+                      <option value="Programa">Programa</option>
+                      <option value="Proyecto">Proyecto</option>
+                      <option value="ObjetivoEstrategico">Objetivo Estrategico</option>
+                      <option value="Entidad">Entidad</option>
+                      <option value="Rol">Rol</option>
+                      <option value="User">Usuario</option>
                     </select>
                 </div>
                 <div>
@@ -293,11 +294,70 @@
             </form>
         </div>
     </div>
-
+<!-- ACTIVIDAD POR USUARIO -->
+<div class="bg-white rounded-lg shadow border border-gray-200 mb-4">
+    <div class="p-4 border-b border-gray-100 flex justify-between items-center cursor-pointer" onclick="toggleReporte('actividad')">
+        <div>
+            <h4 class="font-semibold text-gray-800">Reporte de Actividad por Usuario</h4>
+            <p class="text-xs text-gray-500">Historial completo de acciones realizadas en el sistema filtrado por usuario y modulo</p>
+        </div>
+        <span class="text-gray-400 text-xs">▼ Filtros y descarga</span>
+    </div>
+    <div id="reporte-actividad" class="p-4 bg-gray-50 hidden">
+        <form action="{{ route('reportes.actividad.pdf') }}" method="GET" class="flex gap-3 flex-wrap items-end mb-3">
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Usuario</label>
+                <select name="user_id" class="border rounded p-1.5 text-sm">
+                    <option value="">Todos los usuarios</option>
+                    @foreach($usuarios as $u)
+                    <option value="{{ $u->id }}">{{ $u->name }} ({{ $u->rol?->nombre ?? 'Sin rol' }})</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Modulo</label>
+                 <select name="modulo" class="border rounded p-1.5 text-sm">
+                   <option value="">Todos</option>
+                   <option value="Plan">Plan</option>
+                   <option value="Programa">Programa</option>
+                   <option value="Proyecto">Proyecto</option>
+                   <option value="ObjetivoEstrategico">Objetivo Estrategico</option>
+                   <option value="Entidad">Entidad</option>
+                   <option value="Rol">Rol</option>
+                   <option value="User">Usuario</option>
+                 </select>
+            </div>
+            <button class="bg-gray-800 text-white px-3 py-1.5 rounded text-xs hover:bg-gray-900">Descargar PDF</button>
+        </form>
+        <form action="{{ route('reportes.actividad.csv') }}" method="GET" class="flex gap-3 flex-wrap items-end">
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Usuario</label>
+                <select name="user_id" class="border rounded p-1.5 text-sm">
+                    <option value="">Todos los usuarios</option>
+                    @foreach($usuarios as $u)
+                    <option value="{{ $u->id }}">{{ $u->name }} ({{ $u->rol?->nombre ?? 'Sin rol' }})</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Modulo</label>
+                <select name="modulo" class="border rounded p-1.5 text-sm">
+                    <option value="">Todos</option>
+                    <option value="Plan">Plan</option>
+                    <option value="Proyecto">Proyecto</option>
+                    <option value="Programa">Programa</option>
+                    <option value="ObjetivoEstrategico">Objetivo</option>
+                </select>
+            </div>
+            <button class="bg-gray-600 text-white px-3 py-1.5 rounded text-xs hover:bg-gray-700">Descargar CSV</button>
+        </form>
+    </div>
+</div>
     <div class="mt-4 bg-gray-50 border border-gray-200 rounded-lg p-3">
         <p class="text-xs text-gray-500">Los reportes PDF incluyen encabezado institucional SNP con fecha de generacion. Los archivos CSV son compatibles con Microsoft Excel y Google Sheets.</p>
     </div>
 </div>
+
 
 <script>
 function toggleReporte(id) {

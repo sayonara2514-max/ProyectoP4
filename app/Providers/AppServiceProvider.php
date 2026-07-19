@@ -4,7 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use App\Models\{Proyecto, Plan, Programa, Meta, Indicador, ObjetivoEstrategico};
+use App\Models\{Proyecto, Plan, Programa, Meta, Indicador, ObjetivoEstrategico, Rol, Entidad};
+use App\Models\User;
 use App\Observers\AuditoriaObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,5 +25,8 @@ class AppServiceProvider extends ServiceProvider
         Meta::observe(AuditoriaObserver::class);
         Indicador::observe(AuditoriaObserver::class);
         ObjetivoEstrategico::observe(AuditoriaObserver::class);
+        Entidad::observe(AuditoriaObserver::class);
+        Rol::observe(AuditoriaObserver::class);
+        User::observe(AuditoriaObserver::class);
     }
 }
