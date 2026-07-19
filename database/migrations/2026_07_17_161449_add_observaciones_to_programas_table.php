@@ -11,7 +11,7 @@ return new class extends Migration
      */
 public function up(): void {
     Schema::table('programas', function (Blueprint $table) {
-        $table->text('observaciones')->nullable()->after('responsable');
+        $table->text('observaciones')->nullable();
     });
 }
 public function down(): void {

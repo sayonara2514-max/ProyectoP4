@@ -31,7 +31,7 @@ class ProyectoTest extends TestCase
     {
         $user = $this->adminUser();
         $entidad = Entidad::create(['nombre' => 'SNP', 'mision' => 'Planificar', 'estructura' => 'Publica']);
-        $plan = Plan::create(['nombre' => 'Plan Test', 'periodo_inicio' => '2026-01-01', 'periodo_fin' => '2026-12-31', 'estado' => 'activo', 'entidad_id' => $entidad->id]);
+        $plan = Plan::create(['codigo' => 'PL-001', 'nombre' => 'Plan Test', 'periodo_inicio' => '2026-01-01', 'periodo_fin' => '2026-12-31', 'estado' => 'formulado', 'entidad_id' => $entidad->id]);
         $programa = Programa::create(['nombre' => 'Programa Test', 'plan_id' => $plan->id]);
 
         $response = $this->actingAs($user)->post('/proyectos', [

@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Planes y Proyectos
-    Route::middleware('rol:Administrador,Técnico de Planificación,Revisor Institucional,Autoridad Validante')->group(function () {
+    Route::middleware('rol:Administrador,Técnico de Planificación')->group(function () {
         Route::resource('planes', PlanController::class);
         Route::resource('proyectos', ProyectoController::class);
     });

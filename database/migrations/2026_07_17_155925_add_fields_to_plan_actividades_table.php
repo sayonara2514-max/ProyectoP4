@@ -16,7 +16,6 @@ public function up(): void {
         $table->decimal('presupuesto', 14, 2)->default(0)->after('prioridad');
         $table->integer('porcentaje_avance')->default(0)->after('presupuesto');
         $table->enum('estado_actividad', ['Pendiente','En Ejecucion','Completada','Suspendida'])->default('Pendiente')->after('porcentaje_avance');
-        $table->string('unidad_responsable')->nullable()->after('responsable');
     });
 }
 public function down(): void {
